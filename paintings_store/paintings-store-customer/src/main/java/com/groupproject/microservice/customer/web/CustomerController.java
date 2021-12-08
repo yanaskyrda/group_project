@@ -1,8 +1,8 @@
-package main.java.com.groupproject.microservice.customer.web;
+package com.groupproject.microservice.customer.web;
 
+import com.groupproject.microservice.customer.Customer;
+import com.groupproject.microservice.customer.CustomerRepository;
 import javax.servlet.http.HttpServletRequest;
-import main.java.com.groupproject.microservice.customer.Customer;
-import main.java.com.groupproject.microservice.customer.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
