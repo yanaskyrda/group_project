@@ -15,12 +15,11 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>paintings-store-eureka-server</module>
-		<module>paintings-store-turbine-server</module>
+		<module>paintings-store-netflix-eureka-server</module>
 		<module>paintings-store-customer</module>
 		<module>paintings-store-catalog</module>
 		<module>paintings-store-order</module>
-		<module>paintings-store-zuul-server</module>
+		<module>paintings-store-netflix-zuul-server</module>
 	</modules>
 
 	<properties>
