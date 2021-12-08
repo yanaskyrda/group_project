@@ -1,4 +1,4 @@
-package con.groupproject.microservice.customer;
+package main.java.com.groupproject.microservice.customer;
 
 import java.util.List;
 
