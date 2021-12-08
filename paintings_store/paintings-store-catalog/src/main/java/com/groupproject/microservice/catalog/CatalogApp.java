@@ -1,4 +1,4 @@
-package com.ewolff.microservice.catalog;
+package com.groupproject.microservice.catalog;
 
 import javax.annotation.PostConstruct;
 
