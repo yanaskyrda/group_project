@@ -1,4 +1,4 @@
-package con.groupproject.microservice.customer;
+package com.groupproject.microservice.customer;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
