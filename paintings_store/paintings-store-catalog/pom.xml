@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.ewolff</groupId>
-		<artifactId>microservice-demo</artifactId>
+		<groupId>com.groupproject</groupId>
+		<artifactId>paintings_store</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>microservice-demo-catalog</artifactId>
+	<artifactId>paintings-store-catalog</artifactId>
 
 	<dependencies>
 
