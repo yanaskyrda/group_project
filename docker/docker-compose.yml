@@ -1,0 +1,24 @@
+version: '3'
+services:
+  eureka:
+    build: ../paintings_store/paintings-store-netflix-eureka-server
+    ports:
+      - "8761:8761"
+  customer:
+    build: ../paintings_store/paintings-store-customer
+    links:
+      - eureka
+  catalog:
+    build: ../paintings_store/paintings-store-catalog
+    links:
+      - eureka
+  order:
+    build: ../paintings_store/paintings-store-order
+    links:
+      - eureka
+  zuul:
+    build: ../paintings_store/paintings-store-netflix-zuul-server
+    links:
+     - eureka
+    ports:
+      - "8080:8080"
