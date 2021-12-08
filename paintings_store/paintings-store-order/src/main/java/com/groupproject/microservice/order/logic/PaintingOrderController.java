@@ -13,30 +13,30 @@ import org.springframework.web.servlet.ModelAndView;
 import com.groupproject.microservice.order.clients.CatalogClient;
 import com.groupproject.microservice.order.clients.Customer;
 import com.groupproject.microservice.order.clients.CustomerClient;
-import com.groupproject.microservice.order.clients.Item;
+import com.groupproject.microservice.order.clients.PaintingItem;
 
 @Controller
-class OrderController {
+class PaintingOrderController {
 
-	private OrderRepository orderRepository;
+	private PaintingOrderRepository paintingOrderRepository;
 
-	private OrderService orderService;
+	private PaintingOrderService paintingOrderService;
 
 	private CustomerClient customerClient;
 	private CatalogClient catalogClient;
 
 	@Autowired
-	private OrderController(OrderService orderService, OrderRepository orderRepository, CustomerClient customerClient,
-			CatalogClient catalogClient) {
+	private PaintingOrderController(PaintingOrderService paintingOrderService, PaintingOrderRepository paintingOrderRepository, CustomerClient customerClient,
+									CatalogClient catalogClient) {
 		super();
-		this.orderRepository = orderRepository;
+		this.paintingOrderRepository = paintingOrderRepository;
 		this.customerClient = customerClient;
 		this.catalogClient = catalogClient;
-		this.orderService = orderService;
+		this.paintingOrderService = paintingOrderService;
 	}
 
 	@ModelAttribute("items")
-	public Collection<Item> items() {
+	public Collection<PaintingItem> items() {
 		return catalogClient.findAll();
 	}
 
@@ -47,34 +47,34 @@ class OrderController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView orderList() {
-		return new ModelAndView("orderlist", "orders", orderRepository.findAll());
+		return new ModelAndView("orderlist", "orders", paintingOrderRepository.findAll());
 	}
 
 	@RequestMapping(value = "/form.html", method = RequestMethod.GET)
 	public ModelAndView form() {
-		return new ModelAndView("orderForm", "order", new Order());
+		return new ModelAndView("orderForm", "order", new PaintingOrder());
 	}
 
 	@RequestMapping(value = "/line", method = RequestMethod.POST)
-	public ModelAndView addLine(Order order) {
-		order.addLine(0, catalogClient.findAll().iterator().next().getItemId());
-		return new ModelAndView("orderForm", "order", order);
+	public ModelAndView addLine(PaintingOrder paintingOrder) {
+		paintingOrder.addLine(0, catalogClient.findAll().iterator().next().getItemId());
+		return new ModelAndView("orderForm", "order", paintingOrder);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView get(@PathVariable("id") long id) {
-		return new ModelAndView("order", "order", orderRepository.findById(id).get());
+		return new ModelAndView("order", "order", paintingOrderRepository.findById(id).get());
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public ModelAndView post(Order order) {
-		order = orderService.order(order);
+	public ModelAndView post(PaintingOrder paintingOrder) {
+		paintingOrder = paintingOrderService.order(paintingOrder);
 		return new ModelAndView("success");
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ModelAndView post(@PathVariable("id") long id) {
-		orderRepository.deleteById(id);
+		paintingOrderRepository.deleteById(id);
 
 		return new ModelAndView("success");
 	}

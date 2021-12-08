@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.groupproject.microservice.order.clients.Item;
+import com.groupproject.microservice.order.clients.PaintingItem;
 
 @RestController
 @RequestMapping("/catalog")
@@ -20,18 +20,18 @@ import com.groupproject.microservice.order.clients.Item;
 public class CatalogStub {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Item> getById(@PathVariable("id") long id) {
+	public ResponseEntity<PaintingItem> getById(@PathVariable("id") long id) {
 		if (id != 1) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(new Item(1, "lenovoTablet", 42.0),
+		return new ResponseEntity<>(new PaintingItem(1, "lenovoTablet", 42.0),
 				HttpStatus.OK);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public PagedModel<Item> getAll() {
+	public PagedModel<PaintingItem> getAll() {
 		return new PagedModel<>(
-				Arrays.asList(new Item(1, "lenovoTablet", 42.0)), new PageMetadata(1,
+				Arrays.asList(new PaintingItem(1, "lenovoTablet", 42.0)), new PageMetadata(1,
 				0, 1));
 	}
 

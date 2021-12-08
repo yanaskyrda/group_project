@@ -27,12 +27,12 @@ import com.groupproject.microservice.order.PaintingOrderApp;
 import com.groupproject.microservice.order.clients.CatalogClient;
 import com.groupproject.microservice.order.clients.Customer;
 import com.groupproject.microservice.order.clients.CustomerClient;
-import com.groupproject.microservice.order.clients.Item;
+import com.groupproject.microservice.order.clients.PaintingItem;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = PaintingOrderApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-public class OrderWebIntegrationTest {
+public class PaintingOrderWebIntegrationTest {
 
 	private final RestTemplate restTemplate = new RestTemplate();
 
@@ -46,15 +46,15 @@ public class OrderWebIntegrationTest {
 	private CustomerClient customerClient;
 
 	@Autowired
-	private OrderRepository orderRepository;
+	private PaintingOrderRepository paintingOrderRepository;
 
-	private Item item;
+	private PaintingItem paintingItem;
 
 	private Customer customer;
 
 	@Before
 	public void setup() {
-		item = catalogClient.findAll().iterator().next();
+		paintingItem = catalogClient.findAll().iterator().next();
 		customer = customerClient.findAll().iterator().next();
 		assertEquals("Darik", customer.getFirstname());
 	}
@@ -62,7 +62,7 @@ public class OrderWebIntegrationTest {
 	@Test
 	public void isOrderListReturned() {
 		try {
-			Iterable<Order> orders = orderRepository.findAll();
+			Iterable<PaintingOrder> orders = paintingOrderRepository.findAll();
 			assertTrue(StreamSupport.stream(orders.spliterator(), false)
 					.noneMatch(o -> (o.getCustomerId() == customer.getCustomerId())));
 			ResponseEntity<String> resultEntity = restTemplate.getForEntity(orderURL(), String.class);
@@ -70,14 +70,14 @@ public class OrderWebIntegrationTest {
 			String orderList = resultEntity.getBody();
 			assert orderList != null;
 			assertFalse(orderList.contains("Darik"));
-			Order order = new Order(customer.getCustomerId());
-			order.addLine(42, item.getItemId());
-			orderRepository.save(order);
+			PaintingOrder paintingOrder = new PaintingOrder(customer.getCustomerId());
+			paintingOrder.addLine(42, paintingItem.getItemId());
+			paintingOrderRepository.save(paintingOrder);
 			orderList = restTemplate.getForObject(orderURL(), String.class);
 			assert orderList != null;
 			assertTrue(orderList.contains("Darik"));
 		} finally {
-			orderRepository.deleteAll();
+			paintingOrderRepository.deleteAll();
 		}
 	}
 
@@ -100,13 +100,13 @@ public class OrderWebIntegrationTest {
 	@Test
 	@Transactional
 	public void isSubmittedOrderSaved() {
-		long before = orderRepository.count();
+		long before = paintingOrderRepository.count();
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("submit", "");
 		map.add("customerId", Long.toString(customer.getCustomerId()));
-		map.add("orderLine[0].itemId", Long.toString(item.getItemId()));
+		map.add("orderLine[0].itemId", Long.toString(paintingItem.getItemId()));
 		map.add("orderLine[0].count", "42");
 		restTemplate.postForLocation(orderURL(), map, String.class);
-		assertEquals(before + 1, orderRepository.count());
+		assertEquals(before + 1, paintingOrderRepository.count());
 	}
 }

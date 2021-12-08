@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @EqualsAndHashCode
 @Data
-public class Item extends RepresentationModel {
+public class PaintingItem extends RepresentationModel {
 
 	private String name;
 
@@ -19,11 +19,11 @@ public class Item extends RepresentationModel {
 	@JsonProperty("id")
 	private long itemId;
 
-	public Item() {
+	public PaintingItem() {
 		super();
 	}
 
-	public Item(long id, String name, double price) {
+	public PaintingItem(long id, String name, double price) {
 		super();
 		this.itemId = id;
 		this.name = name;

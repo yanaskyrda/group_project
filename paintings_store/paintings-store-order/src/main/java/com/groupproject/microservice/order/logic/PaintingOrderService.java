@@ -7,33 +7,33 @@ import com.groupproject.microservice.order.clients.CatalogClient;
 import com.groupproject.microservice.order.clients.CustomerClient;
 
 @Service
-class OrderService {
+class PaintingOrderService {
 
-	private OrderRepository orderRepository;
+	private PaintingOrderRepository paintingOrderRepository;
 	private CustomerClient customerClient;
 	private CatalogClient itemClient;
 
 	@Autowired
-	private OrderService(OrderRepository orderRepository,
-			CustomerClient customerClient, CatalogClient itemClient) {
+	private PaintingOrderService(PaintingOrderRepository paintingOrderRepository,
+								 CustomerClient customerClient, CatalogClient itemClient) {
 		super();
-		this.orderRepository = orderRepository;
+		this.paintingOrderRepository = paintingOrderRepository;
 		this.customerClient = customerClient;
 		this.itemClient = itemClient;
 	}
 
-	public Order order(Order order) {
-		if (order.getNumberOfLines() == 0) {
+	public PaintingOrder order(PaintingOrder paintingOrder) {
+		if (paintingOrder.getNumberOfLines() == 0) {
 			throw new IllegalArgumentException("No order lines!");
 		}
-		if (!customerClient.isValidCustomerId(order.getCustomerId())) {
+		if (!customerClient.isValidCustomerId(paintingOrder.getCustomerId())) {
 			throw new IllegalArgumentException("Customer does not exist!");
 		}
-		return orderRepository.save(order);
+		return paintingOrderRepository.save(paintingOrder);
 	}
 
 	public double getPrice(long orderId) {
-		return orderRepository.findById(orderId).get().totalPrice(itemClient);
+		return paintingOrderRepository.findById(orderId).get().totalPrice(itemClient);
 	}
 
 }

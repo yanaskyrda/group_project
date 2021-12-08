@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "ORDERTABLE")
-class Order {
+class PaintingOrder {
 
 	@Id
 	@GeneratedValue
@@ -20,11 +20,11 @@ class Order {
 	private long customerId;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	private List<OrderLine> orderLine;
+	private List<PaintingOrderLine> paintingOrderLine;
 
-	public Order() {
+	public PaintingOrder() {
 		super();
-		orderLine = new ArrayList<OrderLine>();
+		paintingOrderLine = new ArrayList<PaintingOrderLine>();
 	}
 
 	public void setId(long id) {
@@ -43,30 +43,30 @@ class Order {
 		this.customerId = customerId;
 	}
 
-	public List<OrderLine> getOrderLine() {
-		return orderLine;
+	public List<PaintingOrderLine> getOrderLine() {
+		return paintingOrderLine;
 	}
 
-	public Order(long customerId) {
+	public PaintingOrder(long customerId) {
 		super();
 		this.customerId = customerId;
-		this.orderLine = new ArrayList<OrderLine>();
+		this.paintingOrderLine = new ArrayList<PaintingOrderLine>();
 	}
 
-	public void setOrderLine(List<OrderLine> orderLine) {
-		this.orderLine = orderLine;
+	public void setOrderLine(List<PaintingOrderLine> paintingOrderLine) {
+		this.paintingOrderLine = paintingOrderLine;
 	}
 
 	public void addLine(int count, long itemId) {
-		this.orderLine.add(new OrderLine(count, itemId));
+		this.paintingOrderLine.add(new PaintingOrderLine(count, itemId));
 	}
 
 	public int getNumberOfLines() {
-		return orderLine.size();
+		return paintingOrderLine.size();
 	}
 
 	public double totalPrice(CatalogClient itemClient) {
-		return orderLine.stream()
+		return paintingOrderLine.stream()
 				.map((ol) -> ol.getCount() * itemClient.price(ol.getItemId()))
 				.reduce(0.0, (d1, d2) -> d1 + d2);
 	}

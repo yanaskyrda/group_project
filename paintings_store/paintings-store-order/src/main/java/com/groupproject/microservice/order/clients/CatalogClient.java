@@ -27,9 +27,9 @@ public class CatalogClient {
 
     private final Logger log = LoggerFactory.getLogger(CatalogClient.class);
 
-    private final String catalogTemplate = "http://%s:%s/catalog/";
+    private final static String CATALOG_TEMPLATE = "http://%s:%s/catalog/";
 
-    public static class ItemPagedResources extends PagedModel<Item> {
+    public static class ItemPagedResources extends PagedModel<PaintingItem> {
 
     }
 
@@ -38,7 +38,7 @@ public class CatalogClient {
     private final long catalogServicePort;
     private final boolean useRibbon;
     private LoadBalancerClient loadBalancer;
-    private Collection<Item> itemsCache = null;
+    private Collection<PaintingItem> itemsCache = null;
 
     @Autowired
     public CatalogClient(
@@ -84,8 +84,8 @@ public class CatalogClient {
 
     @HystrixCommand(fallbackMethod = "getItemsCache", commandProperties = {
             @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "2")})
-    public Collection<Item> findAll() {
-        PagedModel<Item> pagedResources = restTemplate.getForObject(
+    public Collection<PaintingItem> findAll() {
+        PagedModel<PaintingItem> pagedResources = restTemplate.getForObject(
                 catalogURL(), ItemPagedResources.class);
         assert pagedResources != null;
         this.itemsCache = pagedResources.getContent();
@@ -93,7 +93,7 @@ public class CatalogClient {
     }
 
     @SuppressWarnings("unused")
-    private Collection<Item> getItemsCache() {
+    private Collection<PaintingItem> getItemsCache() {
         return itemsCache;
     }
 
@@ -101,9 +101,9 @@ public class CatalogClient {
         String url;
         if (useRibbon) {
             ServiceInstance instance = loadBalancer.choose("CATALOG");
-            url = String.format(catalogTemplate, instance.getHost(), instance.getPort());
+            url = String.format(CATALOG_TEMPLATE, instance.getHost(), instance.getPort());
         } else {
-            url = String.format(catalogTemplate, catalogServiceHost, catalogServicePort);
+            url = String.format(CATALOG_TEMPLATE, catalogServiceHost, catalogServicePort);
         }
         log.trace("Catalog: URL {} ", url);
         return url;
@@ -111,11 +111,11 @@ public class CatalogClient {
 
     @HystrixCommand(fallbackMethod = "getOneCache", commandProperties = {
             @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "2")})
-    public Item getOne(long itemId) {
-        return restTemplate.getForObject(catalogURL() + itemId, Item.class);
+    public PaintingItem getOne(long itemId) {
+        return restTemplate.getForObject(catalogURL() + itemId, PaintingItem.class);
     }
 
-    public Item getOneCache(long itemId) {
+    public PaintingItem getOneCache(long itemId) {
         return itemsCache.stream()
                 .filter(i -> (i.getItemId() == itemId))
                 .findFirst()

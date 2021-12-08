@@ -31,6 +31,7 @@ public class CustomerClient {
     private final long customerServicePort;
     private final boolean useRibbon;
     private LoadBalancerClient loadBalancer;
+    private final static String CUSTOMER_TEMPLATE = "http://%s:%s/customer/";
 
     static class CustomerPagedResources extends PagedModel<Customer> {
 
@@ -92,9 +93,9 @@ public class CustomerClient {
         String url;
         if (useRibbon) {
             ServiceInstance instance = loadBalancer.choose("CUSTOMER");
-            url = String.format("http://%s:%s/customer/", instance.getHost(), instance.getPort());
+            url = String.format(CUSTOMER_TEMPLATE, instance.getHost(), instance.getPort());
         } else {
-            url = String.format("http://%s:%s/customer/", customerServiceHost, customerServicePort);
+            url = String.format(CUSTOMER_TEMPLATE, customerServiceHost, customerServicePort);
         }
         log.trace("Customer: URL {} ", url);
         return url;

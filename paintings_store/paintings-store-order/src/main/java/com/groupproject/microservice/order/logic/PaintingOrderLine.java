@@ -10,7 +10,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 @Entity
-public class OrderLine {
+public class PaintingOrderLine {
 
 	@Column(name = "F_COUNT")
 	private int count;
@@ -29,10 +29,10 @@ public class OrderLine {
 		this.itemId = item;
 	}
 
-	public OrderLine() {
+	public PaintingOrderLine() {
 	}
 
-	public OrderLine(int count, long item) {
+	public PaintingOrderLine(int count, long item) {
 		this.count = count;
 		this.itemId = item;
 	}

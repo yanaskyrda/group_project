@@ -7,7 +7,7 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 
 import com.groupproject.microservice.order.clients.Customer;
-import com.groupproject.microservice.order.clients.Item;
+import com.groupproject.microservice.order.clients.PaintingItem;
 
 @Configuration
 class SpringRestDataConfig extends RepositoryRestConfigurerAdapter {
@@ -18,7 +18,7 @@ class SpringRestDataConfig extends RepositoryRestConfigurerAdapter {
 		return new RepositoryRestConfigurerAdapter() {
 			@Override
 			public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-				config.exposeIdsFor(Order.class, Item.class, Customer.class);
+				config.exposeIdsFor(PaintingOrder.class, PaintingItem.class, Customer.class);
 			}
 		};
 	}

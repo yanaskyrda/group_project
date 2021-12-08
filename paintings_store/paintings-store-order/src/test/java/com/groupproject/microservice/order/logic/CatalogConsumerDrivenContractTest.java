@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.groupproject.microservice.order.PaintingOrderApp;
 import com.groupproject.microservice.order.clients.CatalogClient;
-import com.groupproject.microservice.order.clients.Item;
+import com.groupproject.microservice.order.clients.PaintingItem;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = PaintingOrderApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
@@ -26,16 +26,16 @@ public class CatalogConsumerDrivenContractTest {
 
 	@Test
 	public void testFindAll() {
-		Collection<Item> result = catalogClient.findAll();
+		Collection<PaintingItem> result = catalogClient.findAll();
 		assertEquals(1, result.stream()
 				.filter(i -> (i.getName().equals("lenovoTablet") && i.getPrice() == 42.0 && i.getItemId() == 1)).count());
 	}
 
 	@Test
 	public void testGetOne() {
-		Collection<Item> allItems = catalogClient.findAll();
-		long id = allItems.iterator().next().getItemId();
-		Item result = catalogClient.getOne(id);
+		Collection<PaintingItem> allPaintingItems = catalogClient.findAll();
+		long id = allPaintingItems.iterator().next().getItemId();
+		PaintingItem result = catalogClient.getOne(id);
 		assertEquals(id, result.getItemId());
 	}
 
