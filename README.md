@@ -1,2 +1,2 @@
 # group_project
-This repository contatins univeristy group project with three microservices and docker deployment. 
+This repository contains univeristy group project with three microservices and docker deployment. 
