@@ -9,7 +9,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>paintings-store-eureka-server</artifactId>
+	<artifactId>paintings-store-netflix-eureka-server</artifactId>
 
 	<dependencies>
 		<dependency>
