@@ -1,4 +1,4 @@
-package main.java.com.groupproject.microservice.customer;
+package com.groupproject.microservice.customer;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
