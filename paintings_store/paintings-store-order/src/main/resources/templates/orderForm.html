@@ -13,7 +13,7 @@
 				<label for="selectCustomer">Customer</label> <select
 					name="selectCustomer" th:field="*{customerId}">
 					<option th:each="customer : ${customers}"
-						th:text="${customer.firstname}+' '+${customer.name}"
+						th:text="${customer.firstname}+' '+${customer.surname}"
 						th:value="${customer.customerId}" value="42" >Rod Johnson</option>
 				</select>
 			</div>

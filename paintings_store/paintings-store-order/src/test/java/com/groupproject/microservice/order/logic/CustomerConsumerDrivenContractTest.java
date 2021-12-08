@@ -12,12 +12,12 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.groupproject.microservice.order.OrderApp;
+import com.groupproject.microservice.order.PaintingOrderApp;
 import com.groupproject.microservice.order.clients.Customer;
 import com.groupproject.microservice.order.clients.CustomerClient;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = OrderApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
+@SpringBootTest(classes = PaintingOrderApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
 public class CustomerConsumerDrivenContractTest {
 
@@ -29,24 +29,24 @@ public class CustomerConsumerDrivenContractTest {
 		Collection<Customer> result = customerClient.findAll();
 		assertEquals(1,
 				result.stream()
-						.filter(c -> (c.getName().equals("Wolff") && c.getFirstname().equals("Eberhard")
-								&& c.getEmail().equals("eberhard.wolff@gmail.com")
-								&& c.getStreet().equals("Unter den Linden") && c.getCity().equals("Berlin")))
+						.filter(c -> (c.getSurname().equals("Iva") && c.getFirstname().equals("Darik")
+								&& c.getEmail().equals("Darik.Iva@gmail.com")
+								&& c.getAddress().equals("Unnamed street") && c.getCity().equals("Kyiv")))
 						.count());
 	}
 
 	@Test
 	public void testGetOne() {
 		Collection<Customer> allCustomer = customerClient.findAll();
-		Long id = allCustomer.iterator().next().getCustomerId();
+		long id = allCustomer.iterator().next().getCustomerId();
 		Customer result = customerClient.getOne(id);
-		assertEquals(id.longValue(), result.getCustomerId());
+		assertEquals(id, result.getCustomerId());
 	}
 
 	@Test
 	public void testValidCustomerId() {
 		Collection<Customer> allCustomer = customerClient.findAll();
-		Long id = allCustomer.iterator().next().getCustomerId();
+		long id = allCustomer.iterator().next().getCustomerId();
 		assertTrue(customerClient.isValidCustomerId(id));
 		assertFalse(customerClient.isValidCustomerId(-1));
 	}

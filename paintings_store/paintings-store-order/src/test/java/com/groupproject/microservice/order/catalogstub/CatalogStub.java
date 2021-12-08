@@ -22,17 +22,17 @@ public class CatalogStub {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Item> getById(@PathVariable("id") long id) {
 		if (id != 1) {
-			return new ResponseEntity<Item>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<Item>(new Item(1, "iPod", 42.0),
+		return new ResponseEntity<>(new Item(1, "lenovoTablet", 42.0),
 				HttpStatus.OK);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public PagedModel<Item> getAll() {
-		return new PagedModel<Item>(
-				Arrays.asList(new Item(1, "iPod", 42.0)), new PageMetadata(1,
-						0, 1));
+		return new PagedModel<>(
+				Arrays.asList(new Item(1, "lenovoTablet", 42.0)), new PageMetadata(1,
+				0, 1));
 	}
 
 }

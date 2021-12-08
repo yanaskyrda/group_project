@@ -10,10 +10,10 @@ import org.springframework.cloud.netflix.ribbon.RibbonClient;
 @EnableDiscoveryClient
 @EnableCircuitBreaker
 @RibbonClient("order")
-public class OrderApp {
+public class PaintingOrderApp {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OrderApp.class, args);
+		SpringApplication.run(PaintingOrderApp.class, args);
 	}
 
 }

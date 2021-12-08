@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Objects;
 import java.util.stream.StreamSupport;
 
 import org.junit.Before;
@@ -22,18 +23,18 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import com.groupproject.microservice.order.OrderApp;
+import com.groupproject.microservice.order.PaintingOrderApp;
 import com.groupproject.microservice.order.clients.CatalogClient;
 import com.groupproject.microservice.order.clients.Customer;
 import com.groupproject.microservice.order.clients.CustomerClient;
 import com.groupproject.microservice.order.clients.Item;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = OrderApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
+@SpringBootTest(classes = PaintingOrderApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
 public class OrderWebIntegrationTest {
 
-	private RestTemplate restTemplate = new RestTemplate();
+	private final RestTemplate restTemplate = new RestTemplate();
 
 	@Value("${server.port}")
 	private long serverPort;
@@ -55,11 +56,11 @@ public class OrderWebIntegrationTest {
 	public void setup() {
 		item = catalogClient.findAll().iterator().next();
 		customer = customerClient.findAll().iterator().next();
-		assertEquals("Eberhard", customer.getFirstname());
+		assertEquals("Darik", customer.getFirstname());
 	}
 
 	@Test
-	public void IsOrderListReturned() {
+	public void isOrderListReturned() {
 		try {
 			Iterable<Order> orders = orderRepository.findAll();
 			assertTrue(StreamSupport.stream(orders.spliterator(), false)
@@ -67,12 +68,14 @@ public class OrderWebIntegrationTest {
 			ResponseEntity<String> resultEntity = restTemplate.getForEntity(orderURL(), String.class);
 			assertTrue(resultEntity.getStatusCode().is2xxSuccessful());
 			String orderList = resultEntity.getBody();
-			assertFalse(orderList.contains("Eberhard"));
+			assert orderList != null;
+			assertFalse(orderList.contains("Darik"));
 			Order order = new Order(customer.getCustomerId());
 			order.addLine(42, item.getItemId());
 			orderRepository.save(order);
 			orderList = restTemplate.getForObject(orderURL(), String.class);
-			assertTrue(orderList.contains("Eberhard"));
+			assert orderList != null;
+			assertTrue(orderList.contains("Darik"));
 		} finally {
 			orderRepository.deleteAll();
 		}
@@ -83,20 +86,20 @@ public class OrderWebIntegrationTest {
 	}
 
 	@Test
-	public void IsOrderFormDisplayed() {
+	public void isOrderFormDisplayed() {
 		ResponseEntity<String> resultEntity = restTemplate.getForEntity(orderURL() + "/form.html", String.class);
 		assertTrue(resultEntity.getStatusCode().is2xxSuccessful());
-		assertTrue(resultEntity.getBody().contains("<form"));
+		assertTrue(Objects.requireNonNull(resultEntity.getBody()).contains("<form"));
 	}
 
 	@Test(expected = HttpClientErrorException.MethodNotAllowed.class)
-	public void OrderFormPostNotAllowed() {
-		ResponseEntity<String> resultEntity = restTemplate.postForEntity(orderURL() + "/form.html", "42", String.class);
+	public void orderFormPostNotAllowed() {
+		restTemplate.postForEntity(orderURL() + "/form.html", "42", String.class);
 	}
 
 	@Test
 	@Transactional
-	public void IsSubmittedOrderSaved() {
+	public void isSubmittedOrderSaved() {
 		long before = orderRepository.count();
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("submit", "");
