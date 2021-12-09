@@ -46,7 +46,7 @@ public class CustomerClient {
         this.restTemplate = getRestTemplate();
         this.customerServiceHost = customerServiceHost;
         this.customerServicePort = customerServicePort;
-        this.useRibbon = useRibbon;
+        this.useRibbon = false;
     }
 
     @Autowired(required = false)

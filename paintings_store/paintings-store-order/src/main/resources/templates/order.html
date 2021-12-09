@@ -12,11 +12,11 @@
 		<div class="row">
 			<div class="col-md-2">Customer</div>
 			<div class="col-md-2"
-				th:text="${@customerClient.getOne(paintingOrder.customerId).firstname}+' '+${@customerClient.getOne(paintingOrder.customerId).surname}"></div>
+				th:text="${@customerClient.getOne(order.customerId).firstname}+' '+${@customerClient.getOne(order.customerId).surname}"></div>
 		</div>
 		<div class="row">
 			<div class="col-md-2">Total price</div>
-			<div class="col-md-2" th:text="${paintingOrder.totalPrice(@catalogClient)}"></div>
+			<div class="col-md-2" th:text="${order.totalPrice(@catalogClient)}"></div>
 		</div>
 
 
@@ -31,10 +31,10 @@
 
 		</div>
 
-		<div class="row" th:each="paintingOrderLine : ${paintingOrder.paintingOrderLine}">
-			<div class="col-md-2" th:text="${paintingOrderLine.count}"></div>
-			<div class="col-md-2" th:text="${@catalogClient.getOne(paintingOrderLine.itemId).name}"></div>
-			<div class="col-md-2" th:text="${@catalogClient.getOne(paintingOrderLine.itemId).price}"></div>
+		<div class="row" th:each="orderLine : ${order.orderLine}">
+			<div class="col-md-2" th:text="${orderLine.count}"></div>
+			<div class="col-md-2" th:text="${@catalogClient.getOne(orderLine.itemId).name}"></div>
+			<div class="col-md-2" th:text="${@catalogClient.getOne(orderLine.itemId).price}"></div>
 		</div>
 	</div>
 </body>

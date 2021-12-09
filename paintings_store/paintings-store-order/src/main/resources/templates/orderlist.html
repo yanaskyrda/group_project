@@ -21,14 +21,14 @@
 				<tr th:if="${orders.empty}">
 					<td colspan="4">No orders</td>
 				</tr>
-				<tr th:each="paintingOrder : ${orders}">
-					<td><a href="paintingOrder/1" th:href="${paintingOrder.id}"
-						th:text="${paintingOrder.id}">1</a></td>
+				<tr th:each="order : ${orders}">
+					<td><a href="order/1" th:href="${order.id}"
+						th:text="${order.id}">1</a></td>
 					<td
-						th:text="${@customerClient.getOne(paintingOrder.customerId).firstname} + ' ' + ${@customerClient.getOne(paintingOrder.customerId).surname}">Firstname
+						th:text="${@customerClient.getOne(order.customerId).firstname} + ' ' + ${@customerClient.getOne(order.customerId).surname}">Firstname
 						Name</td>
-					<td th:text="${paintingOrder.totalPrice(@catalogClient)}">42.0</td>
-					<td><form th:action="'/paintingOrder/'+${paintingOrder.id}" th:method="delete">
+					<td th:text="${order.totalPrice(@catalogClient)}">42.0</td>
+					<td><form th:action="'/order/'+${order.id}" th:method="delete">
 							<input type="submit" value="delete" class="btn btn-link" />
 						</form></td>
 				</tr>

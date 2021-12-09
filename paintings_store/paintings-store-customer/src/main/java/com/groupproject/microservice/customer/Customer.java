@@ -23,7 +23,7 @@ public class Customer {
     @Column(nullable = false)
     @Getter
     @Setter
-    private String name;
+    private String surname;
 
     @Column(nullable = false)
     @Getter
@@ -51,10 +51,10 @@ public class Customer {
         id = 0l;
     }
 
-    public Customer(String firstname, String name, String email, String street,
+    public Customer(String firstname, String surname, String email, String street,
                     String city) {
         super();
-        this.name = name;
+        this.surname = surname;
         this.firstname = firstname;
         this.email = email;
         this.street = street;

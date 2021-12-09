@@ -11,8 +11,8 @@
     <form th:action="${customer.id!=0} ? ${customer.id}+'.html' : 'form.html' " th:object="${customer}"
           th:method="${customer.id != 0} ? put : post" role="form">
         <div class="form-group">
-            <label >Name</label> <input type="text"
-                                        th:field="*{name}" class="form-control" placeholder="name" />
+            <label >Surname</label> <input type="text"
+                                        th:field="*{surname}" class="form-control" placeholder="surname" />
         </div>
 
         <div class="form-group">

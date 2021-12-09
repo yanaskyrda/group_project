@@ -52,7 +52,7 @@ public class CustomerWebIntegrationTest {
     @Test
     public void IsCustomerReturnedAsHTML() {
 
-        Customer customerWolff = customerRepository.findByName("Wolff").get(0);
+        Customer customerWolff = customerRepository.findBySurname("Wolff").get(0);
 
         String body = getForMediaType(String.class, MediaType.TEXT_HTML,
                 customerURL() + customerWolff.getId() + ".html");
@@ -69,7 +69,7 @@ public class CustomerWebIntegrationTest {
     @Test
     public void IsCustomerReturnedAsJSON() {
 
-        Customer customerWolff = customerRepository.findByName("Wolff").get(0);
+        Customer customerWolff = customerRepository.findBySurname("Wolff").get(0);
 
         String url = customerURL() + "customer/" + customerWolff.getId();
         Customer body = getForMediaType(Customer.class, MediaType.APPLICATION_JSON, url);
@@ -82,7 +82,7 @@ public class CustomerWebIntegrationTest {
 
         Iterable<Customer> customers = customerRepository.findAll();
         assertTrue(
-                StreamSupport.stream(customers.spliterator(), false).noneMatch(c -> (c.getName().equals("Hoeller1"))));
+                StreamSupport.stream(customers.spliterator(), false).noneMatch(c -> (c.getSurname().equals("Hoeller1"))));
         ResponseEntity<String> resultEntity = restTemplate.getForEntity(customerURL() + "/list.html", String.class);
         assertTrue(resultEntity.getStatusCode().is2xxSuccessful());
         String customerList = resultEntity.getBody();
@@ -109,7 +109,7 @@ public class CustomerWebIntegrationTest {
     @Test
     @Transactional
     public void IsSubmittedCustomerSaved() {
-        assertEquals(0, customerRepository.findByName("Hoeller").size());
+        assertEquals(0, customerRepository.findBySurname("Hoeller").size());
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
         map.add("firstname", "Juergen");
         map.add("name", "Hoeller");
@@ -118,7 +118,7 @@ public class CustomerWebIntegrationTest {
         map.add("email", "springjuergen@twitter.com");
 
         restTemplate.postForObject(customerURL() + "form.html", map, String.class);
-        assertEquals(1, customerRepository.findByName("Hoeller").size());
+        assertEquals(1, customerRepository.findBySurname("Hoeller").size());
     }
 
 }
