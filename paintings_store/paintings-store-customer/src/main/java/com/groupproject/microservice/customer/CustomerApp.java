@@ -32,10 +32,6 @@ public class CustomerApp {
                 "sanya.totskiy@gmail.com", "Bogdanoskaya", "Kyiv"));
         customerRepository.save(new Customer("Anton", "Gladkiy",
                 "anton.gladkiy@gmail.com", "Cherkasovskaya", "Kyiv"));
-        customerRepository.save(new Customer("Eberhard", "Wolff",
-                "eberhard.wolff@gmail.com", "Unter den Linden", "Berlin"));
-        customerRepository.save(new Customer("Rod", "Johnson",
-                "rod@somewhere.com", "Market Street", "San Francisco"));
     }
 
     public static void main(String[] args) {

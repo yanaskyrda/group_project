@@ -25,11 +25,9 @@ public class CatalogApp {
 	@PostConstruct
 	public void generateTestData() {
 		itemRepository.save(new Item("Mona Lisa", 100.0));
-		itemRepository.save(new Item("Oppo TV", 100.0));
-		itemRepository.save(new Item("MeiZu TV", 100.0));
-		itemRepository.save(new Item("Xiomi TV", 100.0));
-		itemRepository.save(new Item("Game TV", 100.0));
-		itemRepository.save(new Item("Football TV", 100.0));
+		itemRepository.save(new Item("The Starry Night", 40.0));
+		itemRepository.save(new Item("The Last Supper", 150.0));
+		itemRepository.save(new Item("The Night Watch", 70.0));
 	}
 
 	public static void main(String[] args) {
